@@ -1,14 +1,14 @@
-# PyTorch for CUDA 12.1 — works fine on CUDA 12.9 runtime
+# PyTorch for CUDA 12.1 runtime (works with CUDA 12.9)
 torch==2.3.0
 torchvision==0.18.0
 torchaudio==2.3.0
 --extra-index-url https://download.pytorch.org/whl/cu121
 
-# Inpainting + dependencies
-diffusers[torch]==0.21.4
-transformers==4.37.2
-huggingface_hub==0.20.3
+# Hugging Face stack pinned to compatible versions
+diffusers==0.19.3
+transformers==4.30.2
+huggingface_hub==0.16.4
 
-# Others
+# Other essentials
 Pillow
 runpod
