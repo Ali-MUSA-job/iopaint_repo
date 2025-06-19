@@ -34,8 +34,7 @@ RUN python -c "import runpod; print('✅ RunPod version:', runpod.__version__)" 
     python -c "from iopaint.model.lama import LaMa; print('✅ LaMa imported')" && \
     python -c "from iopaint.model.lama import AnimeLaMa; print('✅ AnimeLaMa imported')" && \
     python -c "from iopaint.schema import InpaintRequest; print('✅ InpaintRequest imported')" && \
-    python -c "import iopaint.model.lama; print('✅ Available in lama module:', [x for x in dir(iopaint.model.lama) if not x.startswith('_')])" && \
-    pip list | grep -E "(runpod|iopaint|torch)"
+    python -c "import iopaint.model.lama; print('✅ Available in lama module:', [x for x in dir(iopaint.model.lama) if not x.startswith('_')])" 
 
 # --- Entrypoint for RunPod Serverless ---
 CMD ["python", "-u", "handler.py"]
