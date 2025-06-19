@@ -21,12 +21,8 @@ RUN apt-get update && \
 # --- Copy requirements first for better caching ---
 COPY builder/requirements.txt .
 
-# --- Install all packages with conflict resolution ---
-RUN pip install --no-cache-dir torch==2.3.0 torchvision==0.18.0 --extra-index-url https://download.pytorch.org/whl/cu121 && \
-    pip install --no-cache-dir numpy scipy matplotlib einops && \
-    pip install --no-cache-dir fastapi==0.108.0 markupsafe==2.0.23 websockets==11.0.3 requests huggingface_hub==0.25.2 && \
-    pip install --no-cache-dir iopaint && \
-    pip install --no-cache-dir --force-reinstall runpod>=1.6.0
+# --- Install all packages including RunPod in one go ---
+RUN pip install --no-cache-dir -r requirements.txt
 
 # --- Copy handler ---
 COPY src/handler.py .
