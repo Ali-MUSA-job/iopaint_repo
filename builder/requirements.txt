@@ -1,14 +1,18 @@
-# PyTorch for CUDA 12.1 runtime (works with CUDA 12.9)
+# PyTorch with CUDA support
+--extra-index-url https://download.pytorch.org/whl/cu121
 torch==2.3.0
 torchvision==0.18.0
-torchaudio==2.3.0
---extra-index-url https://download.pytorch.org/whl/cu121
 
-# Hugging Face stack pinned to compatible versions
-diffusers==0.19.3
-transformers==4.30.2
-huggingface_hub==0.16.4
+# Core scientific computing
+numpy
+scipy
+matplotlib
 
-# Other essentials
-Pillow
-runpod
+# AI/ML dependencies
+einops
+requests
+huggingface_hub==0.25.2
+
+# Include IOPaint (install last to avoid conflicts)
+iopaint
+runpod>=1.6.0
