@@ -21,8 +21,12 @@ RUN apt-get update && \
 # --- Copy requirements first for better caching ---
 COPY builder/requirements.txt .
 
-# --- Install all packages including RunPod in one go ---
-RUN pip install --no-cache-dir -r requirements.txt 
+# --- Install all packages with conflict resolution ---
+RUN pip install --no-cache-dir torch==2.3.0 torchvision==0.18.0 --extra-index-url https://download.pytorch.org/whl/cu121 && \
+    pip install --no-cache-dir numpy scipy matplotlib einops && \
+    pip install --no-cache-dir fastapi==0.108.0 markupsafe==2.0.23 websockets==11.0.3 requests huggingface_hub==0.25.2 && \
+    pip install --no-cache-dir iopaint && \
+    pip install --no-cache-dir --force-reinstall runpod>=1.6.0
 
 # --- Copy handler ---
 COPY src/handler.py .
@@ -32,9 +36,10 @@ RUN python -c "import runpod; print('✅ RunPod version:', runpod.__version__)" 
     python -c "import torch; print('✅ PyTorch version:', torch.__version__)" && \
     python -c "import iopaint; print('✅ IOPaint imported')" && \
     python -c "from iopaint.model.lama import LaMa; print('✅ LaMa imported')" && \
-    python -c "from iopaint.model.lama import AnimeLaMa; print('✅ AnimeLaMa imported')" && \
     python -c "from iopaint.schema import InpaintRequest; print('✅ InpaintRequest imported')" && \
-    python -c "import iopaint.model.lama; print('✅ Available in lama module:', [x for x in dir(iopaint.model.lama) if not x.startswith('_')])" 
+    python -c "import iopaint.model.lama; print('✅ Available in lama module:', [x for x in dir(iopaint.model.lama) if not x.startswith('_')])" && \
+    python -c "import iopaint.model; print('✅ Available models:', [x for x in dir(iopaint.model) if not x.startswith('_')])" && \
+    pip list | grep -E "(runpod|iopaint|torch)"
 
 # --- Entrypoint for RunPod Serverless ---
 CMD ["python", "-u", "handler.py"]
